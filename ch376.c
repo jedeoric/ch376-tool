@@ -1,12 +1,24 @@
 #include <stdio.h>
 #include <ch376.h>
+#include <string.h>
 
+void version()
+{
+	printf("ch376 0.0.1\n");
+}
 
-int main()
+int main(int argc,char *argv[])
 {
 	unsigned  char value;
+	
+	if (argc==2 && strcmp(argv[0],"--version"))
+	{
+		version();
+		return 1;
+	}
+		
 	value=ch376_check_exist(0x55);
-	printf("This tool is for tested ch376 chip ...\n");
+	printf("This tool is for ch376 chip test ...\n");
 	printf("Detecting ch376 ...");
 	if (value==0xaa)
 		printf("OK\n");
