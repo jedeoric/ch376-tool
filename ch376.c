@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <ch376.h>
+#include "../oric-common/include/ch376.h"
 #include <string.h>
 
 void version()
@@ -7,11 +7,29 @@ void version()
 	printf("ch376 0.0.1\n");
 }
 
+
+void write_file()
+{
+	char *str="Hello world!";
+	char *filename="/jer4";
+	unsigned char ret;
+	printf("Trying to write %s\n",filename);
+	ch376_set_file_name(filename);
+	ret=ch376_file_create();
+	printf("ch376 file create return : %x\n",ret);
+	ch376_set_file_name(filename);
+	ret=ch376_file_open();
+	printf("ret de ch376 file open %x\n",ret);
+	ret=ch376_fwrite(str,4);
+	printf("ret de ch376 fwrite %x\n",ret);
+	
+}
+
 int main(int argc,char *argv[])
 {
 	unsigned  char value;
 	
-	if (argc==2 && strcmp(argv[0],"--version"))
+	if (argc==2 && strcmp(argv[1],"--version")==0)
 	{
 		version();
 		return 1;
@@ -39,5 +57,6 @@ int main(int argc,char *argv[])
 		printf("Impossible to mount USBKEY\n");
 		return 1;
 	}
+	write_file();
 	return 0;
 }
