@@ -1,4 +1,7 @@
+@echo off
+
 SET ORICUTRON="..\..\..\oricutron\"
+SET PATH=%PATH%;%CC65%
 
 SET ORIGIN_PATH=%CD%
 
