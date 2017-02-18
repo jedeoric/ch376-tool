@@ -5,9 +5,9 @@ SET PATH=%PATH%;%CC65%
 
 SET ORIGIN_PATH=%CD%
 
-cl65 -ttelestrat ch376.c ..\oric-common\lib\ca65\ch376.s
+cl65 -orelease\usr\bin\ch376 -ttelestrat ch376.c ..\oric-common\lib\ca65\ch376.s
 
-copy ch376 release\usr\bin\
+
 
 IF "%1"=="NORUN" GOTO End
 
