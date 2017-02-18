@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../oric-common/include/ch376.h"
+#include "../oric-common/include/asm/ch376.h"
 #include <string.h>
 
 void version()

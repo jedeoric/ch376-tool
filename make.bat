@@ -8,7 +8,7 @@ copy ch376 release
 
 IF "%1"=="NORUN" GOTO End
 
-copy ch376 C:\Users\plifp\OneDrive\oric\oricutron\usbdrive\bin\ch376
+copy ch376 %ORICUTRON%\usbdrive\bin\ch376
 
 cd %ORICUTRON%
 OricutronV4 -mt -d teledisks\stratsed.dsk
