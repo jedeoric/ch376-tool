@@ -1,10 +1,21 @@
 #include <stdio.h>
-#include "../oric-common/include/ch376.h"
+#include "../../oric-common/include/ch376.h"
 #include <string.h>
+
+#include "version.h"
+
 
 void version()
 {
-	printf("ch376 0.0.1\n");
+	printf("ch376 %s\n",VERSION);
+}
+
+void create_directory()
+{
+  unsigned char ret;
+  char *filename="/tmp";
+  ch376_set_file_name(filename);
+  ret=ch376_dir_create();
 }
 
 
@@ -47,9 +58,22 @@ int main(int argc,char *argv[])
 	}
 	
 	printf("Ch376 version : %d\n",ch376_ic_get_version()&(32+16+8+4+2+1));
+
+	printf("Setting SDCARD Mode ...\n");
+	ch376_set_usb_mode(CH376_ARG_SET_USB_MODE_SD_HOST);
+	value=ch376_disk_mount();
+  
+	if (value==CH376_INT_SUCCESS)
+		printf("SDCARD Mounted\n");
+	else
+	{	
+		printf("Impossible to mount SDCARD\n");
+	}
+  
 	printf("Setting USBKEY Mode ...\n");
 	ch376_set_usb_mode(CH376_ARG_SET_USB_MODE_USB_HOST);
 	value=ch376_disk_mount();
+  
 	if (value==CH376_INT_SUCCESS)
 		printf("USBKEY Mounted\n");
 	else
@@ -57,6 +81,10 @@ int main(int argc,char *argv[])
 		printf("Impossible to mount USBKEY\n");
 		return 1;
 	}
+  /*
 	write_file();
+  printf("Creating directory /tmp");
+  create_directory();
+  */
 	return 0;
 }
