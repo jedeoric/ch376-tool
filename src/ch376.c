@@ -10,10 +10,24 @@ void version()
 	printf("ch376 %s\n",VERSION);
 }
 
+
+void usage()
+{
+  printf("usage:\n");
+  printf(" ch376 sub-command\n");
+  printf("sub-command :\n");
+  printf(" mkdir : Create a /ch376 folder\n");
+  //printf(" rm : Delete a /CH376 folder\n");
+  printf("\n* Orix version : Jede (jede@oric.org)\n");
+  return;
+}
+
+
+
 void create_directory()
 {
   unsigned char ret;
-  char *filename="/tmp";
+  char *filename="/ch376";
   ch376_set_file_name(filename);
   ret=ch376_dir_create();
 }

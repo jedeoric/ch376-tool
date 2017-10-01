@@ -22,7 +22,7 @@ IF NOT EXIST build\usr\share\ipkg mkdir build\usr\share\ipkg
 
 echo #define VERSION "%VERSION%" > src\version.h
 rem  123456789012345678
-echo ch376     1.0.0  Diagnotic tool for ch376 chip > src\ipkg\%BINARYFILE%.csv
+echo | set /p dummyName=ch376     1.0.0  CH376 diagnostic tool > src\ipkg\%BINARYFILE%.csv
 
 
 copy src\man\%BINARYFILE%.hlp build\usr\share\man
@@ -35,7 +35,7 @@ cl65 -obuild\usr\bin\%BINARYFILE% -ttelestrat src/ch376.c ..\oric-common\lib\ca6
 
 
 IF "%1"=="NORUN" GOTO End
-
+copy src\ipkg\%BINARYFILE%.csv %ORICUTRON%\usbdrive\usr\share\ipkg\
 copy build\usr\bin\ch376 %ORICUTRON%\usbdrive\usr\bin\ch376
 copy src\man\%BINARYFILE%.hlp %ORICUTRON%\usbdrive\usr\share\man\
 
