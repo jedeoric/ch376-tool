@@ -95,15 +95,28 @@ void write_file()
 	char *str="Hello world!";
 	char *filename="/writeme";
 	unsigned char ret;
-	printf("Trying to write %s\n",filename);
+	printf("Trying to createfile %s\n",filename);
 	ch376_set_file_name(filename);
 	ret=ch376_file_create();
-	printf("ch376 file create return : %x\n",ret);
+  if (ret==CH376_INT_SUCCESS)
+     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+	
+  printf("Trying to write '%s' string to %s\n",str,filename);
 	ch376_set_file_name(filename);
 	ret=ch376_file_open();
-	printf("ret de ch376 file open %x\n",ret);
-	ret=ch376_fwrite(str,strlen(str));
+	if (ret==CH376_INT_SUCCESS)
+     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+  
+  ch376_set_bytes_write(strlen(str));
+	ret=ch376_write(str);
 	printf("ret de ch376 fwrite %x\n",ret);
+  printf("Closing file with length update ...\n");
+  ret=ch376_file_close(1);
+  printf("Close return %x\n",ret);
 	
 }
 
@@ -114,10 +127,10 @@ unsigned char detect()
 	
 	printf("Detecting ch376 ... (sending 0x55)\n");
 	if (value==0xaa)
-		printf("OK : received 0xaa\n",0x02);
+		printf("OK : received 0xaa\n");
 	else
 	{
-		printf("NOK : 0xaa not received\n",0x01);
+		printf("NOK : 0xaa not received\n");
 		return 1;
 	}
 	  
