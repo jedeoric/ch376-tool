@@ -1,7 +1,7 @@
 AS=xa
 CC=cl65
 CFLAGS=-ttelestrat
-LDFILES=../oric-common/lib/ca65/ch376.s
+LDFILES=../telemon/src/include/libs/ca65/ch376.s
 
 
 PROGRAM=ch376

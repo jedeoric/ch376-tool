@@ -5,7 +5,7 @@
 SET BINARYFILE=ch376
 SET PATH_RELEASE=build\usr\share\%BINARYFILE%\
 SET ORICUTRON="..\..\..\oricutron\"
-set VERSION=1.0.0
+set VERSION=1.0.1
 SET ORIGIN_PATH=%CD%
 echo %osdk%
 SET PATH=%PATH%;%CC65%
@@ -30,13 +30,13 @@ copy src\ipkg\%BINARYFILE%.csv build\usr\share\ipkg
 copy README.md build\usr\share\doc\%BINARYFILE%
 
 
-cl65 -obuild\usr\bin\%BINARYFILE% -ttelestrat src/ch376.c ..\oric-common\lib\ca65\ch376.s
+cl65 -obuild\usr\bin\%BINARYFILE% -ttelestrat src/ch376.c ..\telemon\src\include\libs\ca65\ch376.s
 
 
 
 IF "%1"=="NORUN" GOTO End
 copy src\ipkg\%BINARYFILE%.csv %ORICUTRON%\usbdrive\usr\share\ipkg\
-copy build\usr\bin\ch376 %ORICUTRON%\usbdrive\usr\bin\ch376
+copy build\usr\bin\ch376 %ORICUTRON%\usbdrive\bin\ch376
 copy src\man\%BINARYFILE%.hlp %ORICUTRON%\usbdrive\usr\share\man\
 
 cd %ORICUTRON%
