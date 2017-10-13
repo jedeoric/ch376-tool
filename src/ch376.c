@@ -76,17 +76,31 @@ void fseek_test()
 }
 
 
-void delete_directory()
+void delete_directory(unsigned char with_open)
 {
   unsigned char ret;
-  char *filename="/toto";
+  char *filename="/ch376";
   ch376_set_file_name(filename);
   ret=ch376_dir_create();
   
   printf("Suppression de %s\n",filename);
   ch376_set_file_name(filename);
-  ret=ch376_file_open(); // Marche aussi avec cette ligne commentée.
+  if (with_open==0)
+  {
+    ret=ch376_file_open(); // Marche aussi avec cette ligne commentée.
+    if (ret==CH376_INT_SUCCESS)
+     printf("[file_open] OK return code is equal to %x\n",CH376_INT_SUCCESS);
+    else
+      printf("[file_open] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+    
+  }
   ret=ch376_file_erase();
+  if (ret==CH376_INT_SUCCESS)
+     printf("[file_erase] OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("[file_erase] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+  
+  
 }
 
 
@@ -113,10 +127,18 @@ void write_file()
   
   ch376_set_bytes_write(strlen(str));
 	ret=ch376_write(str);
-	printf("ret de ch376 fwrite %x\n",ret);
+  if (ret==CH376_INT_SUCCESS)
+     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+	
   printf("Closing file with length update ...\n");
   ret=ch376_file_close(1);
-  printf("Close return %x\n",ret);
+  if (ret==CH376_INT_SUCCESS)
+     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+  
 	
 }
 
@@ -262,6 +284,18 @@ int main(int argc,char *argv[])
     return 0;
   }        
 
+  if (strcmp(argv[1],"rm")==0)
+  {
+    printf("Creating folder and deletion with open\n");
+    create_directory();
+    delete_directory(0);
+    
+    printf("Creating folder and deletion without open\n");
+    create_directory();
+    delete_directory(1);
+        
+    return 0;
+  }       
   
   
   if (strcmp(argv[1],"all")==0)
@@ -271,18 +305,15 @@ int main(int argc,char *argv[])
     mount_sdcard();
     mount_usbkey();
     create_directory();
+    write_file();
     return 0;
   }
   
-  
-
-  
-
 
 
   
-  delete_directory();
-  fseek_test();
+  
+  //fseek_test();
   /*
 	write_file();
   printf("Creating directory /tmp");
