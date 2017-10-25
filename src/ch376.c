@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <conio.h>
-#include "../../telemon/src/include/c/ch376.h"
+#include "../telemon/src/include/c/ch376.h"
 #include <string.h>
 
 #include "version.h"
