@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <conio.h>
 #include "../../telemon/src/include/c/ch376.h"
 #include <string.h>
 
@@ -42,6 +43,7 @@ void usage()
   printf(" mountusb : mount usbkey\n");
   printf(" mkdir : Create a /ch376d folder\n");
   printf(" write : write data in a file\n");
+  printf(" 2mkdirRm : 2 mkdir and one rm\n");
   printf(" rm : Delete a /ch376d folder\n");
 //  printf(" menu : display menu\n");
   printf(" all : do all test\n");
@@ -57,9 +59,9 @@ void create_directory()
   ch376_set_file_name(filename);
   ret=ch376_dir_create();
   if (ret==CH376_INT_SUCCESS)
-    printf("OK return code is equal to %d\n",CH376_INT_SUCCESS);
+    printf("[DIR CREATE] OK return code is equal to %d\n",CH376_INT_SUCCESS);
   else
-    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+    printf("[DIR CREATE] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
 }
 
 void fseek_test()
@@ -121,23 +123,23 @@ void write_file()
 	ch376_set_file_name(filename);
 	ret=ch376_file_open();
 	if (ret==CH376_INT_SUCCESS)
-     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+     printf("[FILE OPEN] OK return code is equal to %x\n",CH376_INT_SUCCESS);
   else
-    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+    printf("[FILE OPEN] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
   
   ch376_set_bytes_write(strlen(str));
 	ret=ch376_write(str);
   if (ret==CH376_INT_SUCCESS)
-     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+    printf("[WRITE FILE] OK return code is equal to %x\n",CH376_INT_SUCCESS);
   else
-    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+    printf("[WRITE FILE] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
 	
   printf("Closing file with length update ...\n");
   ret=ch376_file_close(1);
   if (ret==CH376_INT_SUCCESS)
-     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+    printf("[FILE_CLOSE] OK return code is equal to %x\n",CH376_INT_SUCCESS);
   else
-    printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+    printf("[FILE_CLOSE] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
   
 	
 }
@@ -149,10 +151,10 @@ unsigned char detect()
 	
 	printf("Detecting ch376 ... (sending 0x55)\n");
 	if (value==0xaa)
-		printf("OK : received 0xaa\n");
+		printf("[CHECK EXISTS] OK : received 0xaa\n");
 	else
 	{
-		printf("NOK : 0xaa not received\n");
+		printf("[CHECK EXISTS] NOK : 0xaa not received\n");
 		return 1;
 	}
 	  
@@ -297,7 +299,77 @@ int main(int argc,char *argv[])
     return 0;
   }       
   
+  if (strcmp(argv[1],"2mkdirRm")==0)
+  {
+  char *rep1="dir1";  
+  char *rep2="dir2";  
+  unsigned char key;
+  ch376_set_file_name("/");
+  ch376_file_open();
+  ch376_set_file_name(rep1);
+  ret=ch376_dir_create();
+  if (ret==CH376_INT_SUCCESS)
+    printf("[DIR CREATE] (%s) OK return code is equal to 0x%x\n",rep1,CH376_INT_SUCCESS);
+  else
+    printf("[DIR CREATE] (%s) NOK error code 0x%x received instead of 0x%x\n",rep1,ret,CH376_INT_SUCCESS);  
+  /*
+  ch376_set_file_name("/");
+  ret=ch376_file_open();
+  if (ret==CH376_INT_SUCCESS)
+     printf("[FILE OPEN] (/) OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("[FILE OPEN] (/) NOK error code 0x%x received instead of 0x%x\n",ret,CH376_INT_SUCCESS);
   
+  //return 1;
+  ch376_set_file_name(rep1);
+  ret=ch376_file_open();   // open rep1
+  if (ret==CH376_INT_SUCCESS)
+     printf("[FILE OPEN] (%s) OK return code is equal to %x\n",rep1,CH376_INT_SUCCESS);
+  else
+    printf("[FILE OPEN] (%s) NOK error code 0x%x received instead of 0x%x\n",rep1,ret,CH376_INT_SUCCESS);
+  //return 1;
+  */
+  ch376_set_file_name(rep2);
+  ret=ch376_dir_create();
+
+  if (ret==CH376_INT_SUCCESS)
+    printf("[DIR CREATE] (%s) OK return code is equal to 0x%x\n",rep2,CH376_INT_SUCCESS);
+  else
+    printf("[DIR CREATE] (%s) NOK error code 0x%x received instead of 0x%x\n",rep2,ret,CH376_INT_SUCCESS);  
+
+  printf("Press a key to destroy Theses 2 new folders");
+  key=cgetc();
+  ch376_set_file_name("/");
+  ret=ch376_file_open();     
+  if (ret==CH376_INT_SUCCESS)
+     printf("[FILE OPEN] (%s) OK return code is equal to %x\n","/",CH376_INT_SUCCESS);
+  else
+    printf("[FILE OPEN] (%s) NOK error code 0x%x received instead of 0x%x\n","/",ret,CH376_INT_SUCCESS);
+  
+  ch376_set_file_name(rep1);   
+  ret=ch376_file_open();   // open rep1
+  
+  if (ret==CH376_INT_SUCCESS)
+     printf("[FILE OPEN] (%s) OK return code is equal to 0x%x\n",rep1,CH376_INT_SUCCESS);
+  else
+    printf("[FILE OPEN] (%s) NOK error code 0x%x received instead of 0x%x\n",rep1,ret,CH376_INT_SUCCESS);
+  
+  
+  
+  ch376_set_file_name(rep2);
+  
+  //ret=ch376_file_open();   
+
+  ret=ch376_file_erase();
+  if (ret==CH376_INT_SUCCESS)
+     printf("[file_erase] OK return code is equal to 0x%x\n",CH376_INT_SUCCESS);
+  else
+    printf("[file_erase] NOK error code 0x%x received instead of 0x%x\n",ret,CH376_INT_SUCCESS);
+  
+  return 0;
+  }       
+  
+ 
   if (strcmp(argv[1],"all")==0)
   {
     detect();
