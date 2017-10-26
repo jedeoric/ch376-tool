@@ -40,7 +40,7 @@ copy build\usr\bin\ch376 %ORICUTRON%\usbdrive\bin\ch376
 copy src\man\%BINARYFILE%.hlp %ORICUTRON%\usbdrive\usr\share\man\
 
 cd %ORICUTRON%
-OricutronV4 -mt 
+OricutronV7 -mt 
 rem Oricutron_ch376V3 -mt -d teledisks\stratsed.dsk
 cd %ORIGIN_PATH%
 :End

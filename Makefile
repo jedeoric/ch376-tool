@@ -19,7 +19,7 @@ test:
 	cp $(PROGRAM) build/usr/bin/
 	cp src/man/$(PROGRAM).hlp build/usr/share/man
 	cp src/ipkg/$(PROGRAM).csv build/usr/share/ipkg
-	tar -c build/* > $(PROGRAM).tar
+	cd build &&	tar -c * > ../$(PROGRAM).tar &&	cd ..  
 	filepack  $(PROGRAM).tar $(PROGRAM).pkg
 	gzip $(PROGRAM).tar
 	mv $(PROGRAM).tar.gz $(PROGRAM).tgz
