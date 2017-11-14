@@ -10,7 +10,7 @@ SOURCE=src/ch376.c
 ASFLAGS=-C -W -e error.txt -l xa_labels.txt -DTARGET_ORIX
 
 $(PROGRAM): $(SOURCE)
-	$(CC) $(SOURCE) $(CFLAGS) -o $(PROGRAM) $(LDFILES)
+	$(CC) $(CFLAGS) -o $(PROGRAM) $(LDFILES) $(SOURCE)
 
 test:
 	mkdir -p build/usr/bin/
