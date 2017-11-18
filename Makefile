@@ -16,9 +16,11 @@ test:
 	mkdir -p build/usr/bin/
 	mkdir -p build/usr/share/man
 	mkdir -p build/usr/share/ipkg  
+	mkdir -p build/usr/share/doc/$(PROGRAM)/
 	cp $(PROGRAM) build/usr/bin/
 	cp src/man/$(PROGRAM).hlp build/usr/share/man
 	cp src/ipkg/$(PROGRAM).csv build/usr/share/ipkg
+	cp README.md build/usr/share/doc/$(PROGRAM)/
 	cd build &&	tar -c * > ../$(PROGRAM).tar &&	cd ..  
 	filepack  $(PROGRAM).tar $(PROGRAM).pkg
 	gzip $(PROGRAM).tar
