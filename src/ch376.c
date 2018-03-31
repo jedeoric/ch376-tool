@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <conio.h>
-#include "../../telemon/src/include/c/ch376.h"
+#include "../../orix/src/include/c/ch376.h"
 #include <string.h>
 
 #include "version.h"
@@ -45,6 +45,7 @@ void usage()
   printf(" write : write data in a file\n");
   printf(" 2mkdirRm : 2 mkdir and one rm\n");
   printf(" rm : Delete a /ch376d folder\n");
+  printf(" getfilesize : Get the size of the current file\n");  
 //  printf(" menu : display menu\n");
   printf(" all : do all test\n");
   printf("\n* Orix version : Jede (jede@oric.org)\n");
@@ -91,17 +92,33 @@ void delete_directory(unsigned char with_open)
   {
     ret=ch376_file_open(); // Marche aussi avec cette ligne commentée.
     if (ret==CH376_INT_SUCCESS)
-     printf("[file_open] OK return code is equal to %x\n",CH376_INT_SUCCESS);
+      printf("[file_open] OK return code is equal to %x\n",CH376_INT_SUCCESS);
     else
       printf("[file_open] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
     
   }
   ret=ch376_file_erase();
   if (ret==CH376_INT_SUCCESS)
-     printf("[file_erase] OK return code is equal to %x\n",CH376_INT_SUCCESS);
+    printf("[file_erase] OK return code is equal to %x\n",CH376_INT_SUCCESS);
   else
     printf("[file_erase] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+}
+
+void getfilesize(char * filename)
+{
+  unsigned char ret;
+  unsigned int size;
+  ch376_set_file_name("/file");
   
+	ret=ch376_file_open();
+	if (ret==CH376_INT_SUCCESS)
+    printf("[FILE OPEN] OK return code is equal to %x\n",CH376_INT_SUCCESS);
+  else
+    printf("[FILE OPEN] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
+  
+    
+  size=ch376_file_get_info();
+  printf("Size of /file : %d\n",size);
   
 }
 
@@ -115,7 +132,7 @@ void write_file()
 	ch376_set_file_name(filename);
 	ret=ch376_file_create();
   if (ret==CH376_INT_SUCCESS)
-     printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
+    printf("OK return code is equal to %x\n",CH376_INT_SUCCESS);
   else
     printf("NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
 	
@@ -123,7 +140,7 @@ void write_file()
 	ch376_set_file_name(filename);
 	ret=ch376_file_open();
 	if (ret==CH376_INT_SUCCESS)
-     printf("[FILE OPEN] OK return code is equal to %x\n",CH376_INT_SUCCESS);
+    printf("[FILE OPEN] OK return code is equal to %x\n",CH376_INT_SUCCESS);
   else
     printf("[FILE OPEN] NOK error code %d received instead of %d\n",ret,CH376_INT_SUCCESS);
   
@@ -286,6 +303,13 @@ int main(int argc,char *argv[])
     return 0;
   }        
 
+  if (strcmp(argv[1],"getfilesize")==0)
+  {
+    getfilesize("/bin/ch376");
+    
+    return 0;
+  }      
+  
   if (strcmp(argv[1],"rm")==0)
   {
     printf("Creating folder and deletion with open\n");
@@ -378,6 +402,7 @@ int main(int argc,char *argv[])
     mount_usbkey();
     create_directory();
     write_file();
+    getfilesize(argv[0]);
     return 0;
   }
   

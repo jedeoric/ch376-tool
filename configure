@@ -1,7 +1,7 @@
 #! /bin/sh
-VERSION=1.0.0
+VERSION=1.0.1
 PROGRAM=ch376
 echo "#define VERSION \"$VERSION\"" > src/version.h
-echo "ch376    1.0.0  CH376 test tool"  > src/ipkg/$PROGRAM.csv
+echo "ch376    1.0.1  CH376 test tool"  > src/ipkg/$PROGRAM.csv
 
 

@@ -30,7 +30,7 @@ copy src\ipkg\%BINARYFILE%.csv build\usr\share\ipkg
 copy README.md build\usr\share\doc\%BINARYFILE%
 
 
-cl65 -obuild\usr\bin\%BINARYFILE% -ttelestrat src/ch376.c ..\telemon\src\include\libs\ca65\ch376.s
+cl65 -obuild\usr\bin\%BINARYFILE% -ttelestrat src/ch376.c ..\orix\src\include\libs\ca65\ch376.s
 
 
 
@@ -40,7 +40,7 @@ copy build\usr\bin\ch376 %ORICUTRON%\usbdrive\bin\ch376
 copy src\man\%BINARYFILE%.hlp %ORICUTRON%\usbdrive\usr\share\man\
 
 cd %ORICUTRON%
-OricutronV7 -mt 
+OricutronV6 -mt 
 rem Oricutron_ch376V3 -mt -d teledisks\stratsed.dsk
 cd %ORIGIN_PATH%
 :End
